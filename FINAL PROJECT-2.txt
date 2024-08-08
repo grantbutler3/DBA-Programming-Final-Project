@@ -1,7 +1,7 @@
-1A. CREATE DATABASE COMP_GRANT_BUTLER
-1B. USE COMP_GRANT_BUTLER
+CREATE DATABASE COMP_GRANT_BUTLER
+ USE COMP_GRANT_BUTLER
 	SELECT current_user(),now(),database();
-1C. #REM CREATE DATABASE IF NOT EXISTS company_aa;
+#REM CREATE DATABASE IF NOT EXISTS company_aa;
 #REM USE company_aa;
 
 /*Drop tables if they exist*/
@@ -213,19 +213,19 @@ COMMIT;
 
 /* End of Script */
 
-1D. INSERT INTO EMPLOYEE (emp_ssn, emp_first_name, emp_last_name, emp_dpt_num, emp_superssn, emp_salary)
+ INSERT INTO EMPLOYEE (emp_ssn, emp_first_name, emp_last_name, emp_dpt_num, emp_superssn, emp_salary)
 VALUES ('111111111', 'Grant', 'Butler', '1', 999666666','80000');
 
-1E. INSERT INTO Dependent (dept_emp_ssn, dep_name, dep_gender, dep_date_of_birth, dep_relationship)
+ INSERT INTO Dependent (dept_emp_ssn, dep_name, dep_gender, dep_date_of_birth, dep_relationship)
 VALUES ('111111111', 'Amya', 'X', '2005-10-11', 'DAUGHTER'); 
 
-1F. SELECT *
+ SELECT *
 FROM EMPLOYEE;
 
-1G. SELECT *
+ SELECT *
 FROM DEPENDENT;
 
-2. SELECT
+ SELECT
     CONCAT(e.emp_first_name, ' ', e.emp_last_name) AS Employee_Name,
     concat(dpt_no, ' ', dpt_name)AS Department,     
     IFNULL(COUNT(a.work_pro_num), 0) AS `# of projects`,
@@ -238,14 +238,14 @@ LEFT JOIN department d ON e.emp_dpt_num = d.dpt_no
 GROUP BY e.emp_ssn, e.emp_first_name, e.emp_last_name, e.emp_dpt_num, d.dpt_name
 ORDER BY e.emp_dpt_num ASC, '# of Projects' ASC;
 
-3. select concat(substring(e.emp_ssn, 1, 3), '-', substring(e.emp_ssn, 4, 2), '-', substring(e.emp_ssn, 6, 4)) AS 'Employee SSN', concat (e.emp_first_name, ' ', e.emp_last_name) as 'Employee Name', count(distinct a.work_pro_num) as '# of Projects', concat('$',format(sum(eqp.eqp_total_value),0)) as 'Equip. Total'
+select concat(substring(e.emp_ssn, 1, 3), '-', substring(e.emp_ssn, 4, 2), '-', substring(e.emp_ssn, 6, 4)) AS 'Employee SSN', concat (e.emp_first_name, ' ', e.emp_last_name) as 'Employee Name', count(distinct a.work_pro_num) as '# of Projects', concat('$',format(sum(eqp.eqp_total_value),0)) as 'Equip. Total'
 from employee e
 left join assignment a on a.work_emp_ssn = e.emp_ssn
 left join equipment eqp on eqp.eqp_pro_num = a.work_pro_num
 group by e.emp_ssn
 order by sum(eqp.eqp_total_value)  asc;
  
-4. SELECT  CONCAT(p.pro_num, ' - ', p.pro_name) AS Project,
+SELECT  CONCAT(p.pro_num, ' - ', p.pro_name) AS Project,
 SUM(a.work_hours_planned) AS "Hours Planned",
 SUM(a.work_hours) AS "Hours Worked",
 SUM(a.work_hours_planned) - SUM(a.work_hours) AS Difference,
@@ -254,7 +254,7 @@ JOIN  assignment a ON p.pro_num = a.work_pro_num
 GROUP BY  p.pro_num, p.pro_name HAVING ABS(SUM(a.work_hours_planned) - SUM(a.work_hours)) > 10
 ORDER BY  Difference DESC;
 
-5.   SELECT
+ SELECT
    IF(e.emp_ssn = dpt_mgrssn, NULL, CONCAT(SUBSTRING(m.emp_ssn, 1, 3), '-', SUBSTRING(m.emp_ssn, 4, 2), '-', SUBSTRING(m.emp_ssn, 6, 4))) AS "Manager SSN",
   CONCAT(m.emp_first_name, ' ',m.emp_last_name) AS 'Manager Name',
  concat(dpt_no, ' - ', dpt_name)AS Department,
